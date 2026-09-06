@@ -1011,8 +1011,13 @@ window.MathJax = {
     drawBaseNote(); drawShare();
   });
 
+  /* Opens the REAL generated link, so what you see is what students get.
+     An in-page preview would always work and would tell you nothing. */
   $("preview").addEventListener("click", function(){
-    try{ showStudent(unpack(pack())); }catch(e){}
+    var url = $("link").dataset.url;
+    if(!url) return;
+    var w = window.open(url, "_blank");
+    if(!w) location.href = url;
   });
   $("print").addEventListener("click", function(){ window.print(); });
   $("exit").addEventListener("click", function(){
@@ -1045,8 +1050,26 @@ window.MathJax = {
       try{ payload = decodeURIComponent(m[1]); }catch(e){ payload = m[1]; }
     }
     if(!payload && location.hash.length > 3) payload = location.hash.slice(1);
-    if(!payload) return;
-    try{ showStudent(unpack(payload)); }catch(e){}
+    if(!payload){
+      /* No activity in the address — this is the builder, opened normally. */
+      $("setup").insertAdjacentHTML("afterbegin",
+        "<div class='notice ok' style='margin-bottom:18px'><span>ℹ</span><span>" +
+        "This is the <b>builder</b>. Students never see this page — they get the link you make in step 06, " +
+        "which has <code>?a=</code> and a long code on the end. To check what they will see, press " +
+        "<b>Open student view</b> down in step 06." +
+        "</span></div>");
+      return;
+    }
+    try{
+      showStudent(unpack(payload));
+    }catch(e){
+      $("setup").insertAdjacentHTML("afterbegin",
+        "<div class='notice bad' style='margin-bottom:18px'><span>⚠</span><span>" +
+        "<b>This student link is damaged.</b> The address has an activity code on it, but it could not be read — " +
+        "usually because the link was cut short when it was pasted or forwarded. Copy it again from step 06 and " +
+        "make sure the whole thing arrives, right to the last character." +
+        "</span></div>");
+    }
   })();
 })();
 </script>
