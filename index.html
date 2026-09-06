@@ -1,0 +1,1054 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>:root{color-scheme:light dark}html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Six by Six</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#F6F8F7; --surface:#FFFFFF; --surface-2:#ECF2F0; --surface-3:#E2EAE8;
+  --ink:#151F1D; --muted:#5C6E6A; --faint:#8B9A96; --line:#D5E0DD;
+  --accent:#0D7A6F; --accent-ink:#FFFFFF; --accent-soft:#DDF0EB;
+  --warn:#8F540F; --warn-soft:#F8EEDD; --warn-line:#DCC08A;
+  --bad:#A32C3F; --bad-soft:#FAE3E6; --bad-line:#E2AAB3;
+  --l1:#0D7A6F; --l1s:#DDF0EB;
+  --l2:#3F3D91; --l2s:#E5E4F6;
+  --l3:#8A5410; --l3s:#F7EEDC;
+  --l4:#983153; --l4s:#F8E4EA;
+  --shadow:0 1px 2px rgba(21,31,29,.05), 0 10px 30px rgba(21,31,29,.07);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0D1513; --surface:#151F1D; --surface-2:#1E2C29; --surface-3:#263733;
+    --ink:#E9F1EF; --muted:#93A6A2; --faint:#6F817D; --line:#273835;
+    --accent:#3ED8C4; --accent-ink:#062320; --accent-soft:#123B36;
+    --warn:#E4B569; --warn-soft:#3A2F18; --warn-line:#6B5227;
+    --bad:#F0919F; --bad-soft:#431C24; --bad-line:#78323D;
+    --l1:#3ED8C4; --l1s:#123B36;
+    --l2:#ADA9F5; --l2s:#25246A;
+    --l3:#E4B569; --l3s:#3A2F18;
+    --l4:#F09AB4; --l4s:#4A1F30;
+    --shadow:0 1px 2px rgba(0,0,0,.45), 0 10px 30px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0D1513; --surface:#151F1D; --surface-2:#1E2C29; --surface-3:#263733;
+  --ink:#E9F1EF; --muted:#93A6A2; --faint:#6F817D; --line:#273835;
+  --accent:#3ED8C4; --accent-ink:#062320; --accent-soft:#123B36;
+  --warn:#E4B569; --warn-soft:#3A2F18; --warn-line:#6B5227;
+  --bad:#F0919F; --bad-soft:#431C24; --bad-line:#78323D;
+  --l1:#3ED8C4; --l1s:#123B36;
+  --l2:#ADA9F5; --l2s:#25246A;
+  --l3:#E4B569; --l3s:#3A2F18;
+  --l4:#F09AB4; --l4s:#4A1F30;
+  --shadow:0 1px 2px rgba(0,0,0,.45), 0 10px 30px rgba(0,0,0,.4);
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:"IBM Plex Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+  font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%}
+h1,h2,h3{font-family:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;margin:0;text-wrap:balance;letter-spacing:-.015em}
+button,input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+code{font-family:"IBM Plex Mono",monospace;font-size:.88em;background:var(--surface-3);padding:1px 5px;border-radius:4px}
+sup,sub{font-size:.7em;line-height:0}
+img{max-width:100%}
+
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+.wrap{max-width:980px;margin:0 auto;padding:32px 20px 110px}
+.masthead{display:flex;flex-direction:column;gap:6px;margin-bottom:26px}
+.masthead h1{font-size:clamp(1.8rem,4.5vw,2.5rem);font-weight:700}
+.masthead p{margin:0;color:var(--muted);max-width:64ch}
+
+.panels{display:flex;flex-direction:column;gap:20px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  box-shadow:var(--shadow);padding:22px;display:flex;flex-direction:column;gap:16px}
+.panel > h2{font-size:1.05rem;font-weight:600;display:flex;align-items:baseline;gap:10px}
+.panel > h2 .step{font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--accent);
+  background:var(--accent-soft);padding:3px 7px;border-radius:6px;letter-spacing:.06em}
+.hint{margin:0;color:var(--muted);font-size:.87rem;max-width:70ch}
+
+label.field{display:flex;flex-direction:column;gap:6px}
+label.field > span{font-size:.85rem;font-weight:500}
+textarea,input[type=text],input[type=number]{
+  background:var(--ground);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%}
+textarea{resize:vertical;line-height:1.55;font-size:.94rem;min-height:84px}
+input[type=number]{font-variant-numeric:tabular-nums}
+.row{display:flex;flex-wrap:wrap;gap:14px}
+.row > label.field{flex:1 1 140px}
+
+.btn{border:1px solid transparent;border-radius:10px;padding:10px 16px;font-weight:600;
+  font-size:.9rem;cursor:pointer;background:var(--accent);color:var(--accent-ink);
+  transition:filter .15s ease,transform .06s ease}
+.btn:hover{filter:brightness(1.08)}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.ghost:hover{background:var(--surface-2);filter:none}
+.btn.small{padding:6px 11px;font-size:.8rem;border-radius:8px}
+.btn-row{display:flex;flex-wrap:wrap;gap:9px;align-items:center}
+
+.lenses{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.lens{display:flex;gap:11px;align-items:flex-start;padding:12px 13px;border-radius:11px;
+  border:1px solid var(--line);background:var(--surface-2);cursor:pointer}
+.lens input{margin:3px 0 0;width:17px;height:17px;flex:none;accent-color:var(--h)}
+.lens b{font-weight:600;font-size:.9rem;display:block}
+.lens small{color:var(--muted);font-size:.8rem;display:block;margin-top:1px;line-height:1.4}
+.lens[data-k="number"]{--h:var(--l1)} .lens[data-k="role"]{--h:var(--l2)}
+.lens[data-k="style"]{--h:var(--l3)}  .lens[data-k="level"]{--h:var(--l4)}
+.lens.on{border-color:var(--h);box-shadow:inset 3px 0 0 var(--h)}
+
+.labelset{display:flex;flex-direction:column;gap:9px;padding:14px;border-radius:11px;
+  border:1px solid var(--line);background:var(--surface-2)}
+.labelset > .head{display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap}
+.chip{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:600;padding:3px 8px;border-radius:6px;background:var(--cs);color:var(--c)}
+.labelgrid{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.labelgrid input{background:var(--surface);font-size:.88rem}
+
+/* ---- task editor ---- */
+.tasklist{display:flex;flex-direction:column;gap:18px}
+.taskrow{display:flex;flex-direction:column;gap:8px;padding:14px;border:1px solid var(--line);
+  border-radius:12px;background:var(--surface-2)}
+.taskrow.drop{border-color:var(--accent);background:var(--accent-soft)}
+.taskrow .tags{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.slotno{font-family:"IBM Plex Mono",monospace;font-size:.7rem;color:var(--faint);letter-spacing:.1em}
+.taskrow textarea{background:var(--surface)}
+.imgstrip{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.thumb{position:relative;display:flex;align-items:center;gap:9px;padding:6px 10px 6px 6px;
+  background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.thumb img{width:52px;height:52px;object-fit:cover;border-radius:7px;display:block}
+.thumb .meta{font-size:.74rem;color:var(--muted);font-family:"IBM Plex Mono",monospace;line-height:1.35}
+.preview{background:var(--surface);border:1px dashed var(--line);border-radius:10px;padding:12px 14px;
+  font-size:.95rem;line-height:1.6;min-height:20px}
+.preview .plab{font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--faint);display:block;margin-bottom:6px}
+.preview img{border-radius:8px;margin-top:10px;display:block;max-height:220px}
+.preview .empty{color:var(--faint);font-style:italic}
+
+details.cheat{border:1px solid var(--line);border-radius:11px;background:var(--surface-2);padding:0}
+details.cheat > summary{cursor:pointer;padding:12px 14px;font-weight:600;font-size:.9rem;list-style:none}
+details.cheat > summary::-webkit-details-marker{display:none}
+details.cheat > summary::before{content:"▸ ";color:var(--accent)}
+details.cheat[open] > summary::before{content:"▾ "}
+.cheatbody{padding:0 14px 14px;display:flex;flex-direction:column;gap:12px}
+table.cheat{border-collapse:collapse;width:100%;font-size:.86rem}
+table.cheat th,table.cheat td{padding:6px 9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+table.cheat thead th{font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted)}
+table.cheat tr:last-child td{border-bottom:none}
+
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{border:1px solid var(--line);background:var(--surface-2);border-radius:9px;padding:7px 13px;
+  font-size:.85rem;font-weight:500;cursor:pointer}
+.tab.on{background:var(--accent);color:var(--accent-ink);border-color:transparent;font-weight:600}
+
+.switch{display:flex;gap:11px;align-items:flex-start;padding:12px 13px;background:var(--surface-2);
+  border:1px solid var(--line);border-radius:10px;cursor:pointer}
+.switch input{margin:3px 0 0;width:17px;height:17px;accent-color:var(--accent);flex:none}
+.switch b{font-weight:600;font-size:.9rem;display:block}
+.switch small{color:var(--muted);font-size:.82rem;display:block;margin-top:1px;line-height:1.4}
+
+.notice{display:flex;gap:10px;padding:11px 13px;border-radius:10px;font-size:.86rem;line-height:1.5;
+  background:var(--warn-soft);border:1px solid var(--warn-line);color:var(--warn)}
+.notice.ok{background:var(--accent-soft);border-color:transparent;color:var(--accent)}
+.notice.bad{background:var(--bad-soft);border-color:var(--bad-line);color:var(--bad)}
+.notice b{font-weight:600}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table.assign{border-collapse:collapse;width:100%;font-size:.85rem;font-variant-numeric:tabular-nums}
+table.assign th,table.assign td{padding:8px 11px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+table.assign tr:last-child td,table.assign tr:last-child th{border-bottom:none}
+table.assign thead th{background:var(--surface-2);font-family:"IBM Plex Mono",monospace;font-size:.68rem;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+table.assign tbody th{background:var(--surface-2);font-weight:600}
+table.assign td{color:var(--muted)}
+table.assign td b{color:var(--ink);font-weight:600}
+
+/* link weight meter */
+.meter{display:flex;flex-direction:column;gap:7px}
+.meterbar{height:8px;border-radius:5px;background:var(--surface-3);overflow:hidden}
+.meterfill{height:100%;border-radius:5px;background:var(--accent);transition:width .25s ease}
+.meterfill.warn{background:var(--warn)} .meterfill.bad{background:var(--bad)}
+.meterrow{display:flex;justify-content:space-between;gap:12px;font-size:.8rem;
+  font-family:"IBM Plex Mono",monospace;color:var(--muted);letter-spacing:.04em}
+
+.share{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start}
+.share .left{flex:1 1 320px;display:flex;flex-direction:column;gap:11px;min-width:0}
+.linkbox{font-family:"IBM Plex Mono",monospace;font-size:.75rem;word-break:break-all;background:var(--ground);
+  border:1px solid var(--line);border-radius:10px;padding:10px 12px;max-height:88px;overflow:auto;color:var(--muted)}
+.qrbox{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:8px;background:#FFFFFF;
+  padding:14px;border-radius:12px;border:1px solid var(--line)}
+.qrbox .cap{font-size:.7rem;color:#5C6E6A;font-family:"IBM Plex Mono",monospace;letter-spacing:.08em}
+
+.saved{display:flex;flex-direction:column;gap:8px}
+.savedrow{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface-2);
+  border:1px solid var(--line);border-radius:9px;font-size:.87rem}
+.savedrow .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
+.sep{height:1px;background:var(--line)}
+
+/* ---- student ---- */
+#student{min-height:100vh;min-height:100dvh;display:none;flex-direction:column}
+#student.on{display:flex}
+.tinybar{display:flex;justify-content:flex-end;padding:12px 16px 0}
+.tiny{background:none;border:none;color:var(--muted);font-size:.75rem;cursor:pointer;opacity:.5}
+.tiny:hover{opacity:1;text-decoration:underline}
+.stage{flex:1;display:flex;flex-direction:column;justify-content:center;width:100%;max-width:900px;
+  margin:0 auto;padding:24px 20px 44px;gap:24px}
+.ask{display:flex;flex-direction:column;gap:6px;text-align:center}
+.ask h2{font-size:clamp(1.45rem,4.6vw,2.1rem);font-weight:700}
+.ask p{margin:0;color:var(--muted)}
+.pad{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.pad.num{grid-template-columns:repeat(auto-fit,minmax(100px,1fr))}
+.pick{background:var(--surface);color:var(--ink);border:2px solid var(--line);border-radius:16px;
+  padding:20px 14px;cursor:pointer;box-shadow:var(--shadow);text-align:center;
+  transition:border-color .15s ease,background .15s ease,transform .08s ease;
+  display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:center;min-height:88px}
+.pick .big{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:700;
+  font-size:clamp(1.6rem,5vw,2.4rem);font-variant-numeric:tabular-nums;line-height:1.1}
+.pick .lbl{font-size:1.02rem;font-weight:600;line-height:1.3}
+.pick .sub{font-size:.76rem;color:var(--muted);font-family:"IBM Plex Mono",monospace;letter-spacing:.06em}
+.pick:hover{border-color:var(--hv,var(--accent));background:var(--hs,var(--accent-soft))}
+.pick:active{transform:scale(.975)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);
+  padding:clamp(20px,4.5vw,38px);display:flex;flex-direction:column;gap:16px}
+.card .tag{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.card .tags{display:flex;gap:6px;flex-wrap:wrap}
+.card .num{font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--faint);letter-spacing:.08em}
+.card .body{font-size:clamp(1.1rem,2.9vw,1.4rem);line-height:1.6;font-weight:450}
+.card .intro{font-size:.92rem;color:var(--muted);white-space:pre-wrap}
+.figure{margin:0;display:flex;flex-direction:column;gap:6px}
+.figure img{border-radius:12px;border:1px solid var(--line);display:block;width:100%;height:auto}
+.together{border:2px dashed var(--line);border-radius:18px;padding:clamp(18px,4vw,32px);
+  display:flex;flex-direction:column;gap:12px;background:var(--surface-2)}
+.together h3{font-size:1.05rem;font-weight:700}
+.together .body{font-size:clamp(1rem,2.5vw,1.22rem);line-height:1.6}
+.backline{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+mjx-container{max-width:100%;overflow-x:auto;overflow-y:hidden}
+mjx-container[display="true"]{margin:.6em 0!important}
+
+@media print{
+  body{background:#fff;color:#000}
+  .wrap,#student,.tinybar{display:none!important}
+  .printonly{display:block}
+  .p-h{font-size:15pt;margin:0 0 8pt}
+  .p-sub{font-size:10pt;color:#444;margin:0 0 14pt}
+  .p-table{border-collapse:collapse;width:100%;margin-bottom:20pt;font-size:9.5pt}
+  .p-table th,.p-table td{border:1px solid #999;padding:5pt 7pt;text-align:left}
+  .p-table thead th{background:#eee}
+  .p-card{border:1px dashed #888;padding:14pt;margin-bottom:8pt;break-inside:avoid;
+    display:flex;flex-direction:column;gap:7pt}
+  .p-card .n{font-size:8.5pt;letter-spacing:.08em;text-transform:uppercase;color:#555}
+  .p-card .t{font-size:12pt;line-height:1.45}
+  .p-card img{max-width:100%;max-height:2.6in;object-fit:contain}
+  .p-group{border:2px solid #333;padding:14pt;margin-top:14pt;break-inside:avoid}
+}
+.printonly{display:none}
+</style>
+
+<div class="wrap" id="setup">
+  <header class="masthead">
+    <span class="eyebrow">Group task distributor</span>
+    <h1>Six by Six</h1>
+    <p>Write your tasks once, send one link. Every student picks their group, then finds their own task — by number, role, task style, or level, whichever you turn on. When they finish, the shared group task appears.</p>
+  </header>
+
+  <div class="panels">
+
+    <section class="panel">
+      <h2><span class="step">01</span> The lesson</h2>
+      <label class="field"><span>Activity name</span>
+        <input type="text" id="title" placeholder="e.g. Equations with variables on both sides"></label>
+      <label class="field"><span>Instructions every student sees above their task (optional)</span>
+        <textarea id="intro" style="min-height:60px" placeholder="e.g. Work on your own task for 10 minutes. Do not share answers yet."></textarea></label>
+      <div class="row">
+        <label class="field"><span>Groups</span><input type="number" id="nGroups" min="2" max="12" value="6"></label>
+        <label class="field"><span>Students per group</span><input type="number" id="nSlots" min="2" max="8" value="6"></label>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2><span class="step">02</span> How students find their task</h2>
+      <p class="hint">Turn on the ones you want. Edit the labels — they are what students tap.</p>
+      <div class="lenses" id="lenses"></div>
+      <div id="lensWarn"></div>
+      <div id="labelsets" style="display:flex;flex-direction:column;gap:12px"></div>
+    </section>
+
+    <section class="panel">
+      <h2><span class="step">03</span> The tasks</h2>
+
+      <details class="cheat">
+        <summary>Writing equations and adding pictures</summary>
+        <div class="cheatbody">
+          <p class="hint"><b>Quick maths, no code.</b> Type it plainly and it tidies itself up.</p>
+          <table class="cheat">
+            <thead><tr><th>You type</th><th>Students see</th></tr></thead>
+            <tbody>
+              <tr><td><code>x^2 + 3x</code></td><td>x² + 3x</td></tr>
+              <tr><td><code>a_1</code></td><td>a₁</td></tr>
+              <tr><td><code>x &lt;= 5</code>, <code>x &gt;= 5</code>, <code>x != 5</code></td><td>x ≤ 5, x ≥ 5, x ≠ 5</td></tr>
+              <tr><td><code>+-</code>, <code>-&gt;</code>, <code>sqrt(9)</code></td><td>±, →, √(9)</td></tr>
+            </tbody>
+          </table>
+          <p class="hint"><b>Proper maths, when you need it.</b> Put LaTeX between dollar signs — <code>$\frac{3}{4}$</code> gives a real stacked fraction, <code>$\sqrt{x+1}$</code> a proper radical. Use <code>$$…$$</code> to centre it on its own line. Everything renders live in the preview under each box, so you can check before you send.</p>
+          <p class="hint"><b>Pictures.</b> Use the button, drag a file onto the box, or just paste with Ctrl+V. Images are shrunk automatically, but they still make the link longer — watch the meter in step 06. One or two diagrams is comfortable; six photos is not.</p>
+        </div>
+      </details>
+
+      <label class="switch">
+        <input type="checkbox" id="vary">
+        <span><b>Give each group its own set of tasks</b>
+        <small>Off: all groups work the same set, so you can run one whole-class debrief. On: every group gets different tasks, which stops copying but means writing a lot more.</small></span>
+      </label>
+      <div id="groupTabs" class="tabs" style="display:none"></div>
+      <div id="varyTools" class="btn-row" style="display:none">
+        <button class="btn ghost small" id="copyFrom1">Copy Group 1's tasks to every group</button>
+      </div>
+      <div class="tasklist" id="tasks"></div>
+    </section>
+
+    <section class="panel">
+      <h2><span class="step">04</span> The group task</h2>
+      <p class="hint">This stays hidden until a student taps “We're all done”. It should need every individual task to complete — that is what makes the individual work matter. Equations and a picture work here too.</p>
+      <div class="tasklist" id="groupTaskBox"></div>
+    </section>
+
+    <section class="panel">
+      <h2><span class="step">05</span> Check it</h2>
+      <div id="warning"></div>
+      <div class="tablewrap"><table class="assign" id="grid"></table></div>
+    </section>
+
+    <section class="panel">
+      <h2><span class="step">06</span> Send it</h2>
+
+      <div class="basebox">
+        <label class="field"><span>Where this app lives (paste once, then forget it)</span>
+          <input type="text" id="baseUrl" placeholder="Paste the address you got from Share — or from Canvas">
+        </label>
+        <p class="hint">The Share dialog gives you a link to <b>this builder</b>, not to your activity. Paste it here once and every student link below will be built from it automatically. You will not need to touch this again.</p>
+        <div id="baseNote"></div>
+      </div>
+
+      <div class="meter">
+        <div class="meterbar"><div class="meterfill" id="meterfill" style="width:2%"></div></div>
+        <div class="meterrow"><span id="meterLabel">—</span><span id="meterSize">—</span></div>
+      </div>
+      <div id="meterNote"></div>
+      <div class="share">
+        <div class="left">
+          <p class="hint">The link carries your whole activity inside it. Nothing is stored on a server, so there is nothing to log in to and nothing to go down.</p>
+          <div class="linkbox" id="link"></div>
+          <div class="btn-row">
+            <button class="btn" id="copy">Copy link</button>
+            <button class="btn ghost" id="preview">Open student view</button>
+            <button class="btn ghost" id="print">Print for paper</button>
+          </div>
+          <p class="hint" id="qrnote"></p>
+        </div>
+        <div class="qrbox" id="qrbox"><div id="qr"></div><span class="cap">SCAN TO OPEN</span></div>
+      </div>
+      <div class="sep"></div>
+      <div class="saved">
+        <p class="hint"><b>Your saved activities</b> — kept in this browser on this device only. Useful for building a bank across the year. Clearing browser data removes them, so keep the links too.</p>
+        <div class="btn-row">
+          <input type="text" id="saveName" placeholder="Name this activity" style="flex:1 1 200px;width:auto">
+          <button class="btn ghost small" id="saveBtn">Save</button>
+        </div>
+        <div id="savedList"></div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<section id="student">
+  <div class="tinybar"><button class="tiny" id="exit">Teacher setup</button></div>
+  <div class="stage" id="stage"></div>
+</section>
+
+<div class="printonly" id="printarea"></div>
+
+<script>
+window.MathJax = {
+  tex:{ inlineMath:[["$","$"],["\\(","\\)"]], displayMath:[["$$","$$"],["\\[","\\]"]], processEscapes:true },
+  svg:{ fontCache:"local", scale:1.02 },
+  options:{ skipHtmlTags:["script","noscript","style","textarea","pre","code"], enableMenu:false },
+  startup:{ typeset:false }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+(function(){
+  "use strict";
+  var $ = function(id){ return document.getElementById(id); };
+
+  var LENS = [
+    { k:"number", n:"Their number in the group", d:"Students count off 1, 2, 3… and tap their number.", c:"--l1", s:"--l1s",
+      def:["1","2","3","4","5","6","7","8"] },
+    { k:"role", n:"Their role", d:"Each student holds a job in the group.", c:"--l2", s:"--l2s",
+      def:["Recorder","Checker","Presenter","Timekeeper","Resource Manager","Questioner","Illustrator","Summariser"] },
+    { k:"style", n:"Task style", d:"A choice board — students pick the format they want to work in.", c:"--l3", s:"--l3s",
+      def:["Draw or diagram it","Talk it through","Build or model it","Write it out","Find the mistake","Real-life example","Teach it to someone","Make a question"] },
+    { k:"level", n:"Level", d:"Same skill, different demand.", c:"--l4", s:"--l4s",
+      def:["Foundation","Developing","Core","Core +","Challenge","Extension","Deep dive","Mastery"] }
+  ];
+  function lensByKey(k){ for(var i=0;i<LENS.length;i++) if(LENS[i].k===k) return LENS[i]; return LENS[0]; }
+
+  /* ---------- rich text: escape → typography → MathJax ---------- */
+  var MATH_RE = /(\$\$[\s\S]*?\$\$|\$[^$\n]+?\$|\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\])/g;
+  function esc(t){ return String(t == null ? "" : t).replace(/[&<>"]/g, function(c){
+    return ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]; }); }
+  function pretty(s){
+    return s
+      .replace(/&lt;=/g,"≤").replace(/&gt;=/g,"≥")
+      .replace(/!=/g,"≠").replace(/\+-/g,"±")
+      .replace(/-&gt;/g,"→").replace(/=&gt;/g,"⇒")
+      .replace(/\bsqrt\s*\(/g,"√(")
+      .replace(/\^\{([^}\n]+)\}/g,"<sup>$1</sup>")
+      .replace(/\^(-?[0-9A-Za-z]+)/g,"<sup>$1</sup>")
+      .replace(/_\{([^}\n]+)\}/g,"<sub>$1</sub>")
+      .replace(/(?<=[A-Za-z0-9])_([0-9A-Za-z]+)/g,"<sub>$1</sub>");
+  }
+  function rich(text){
+    if(!text) return "";
+    var out = "", last = 0, m;
+    MATH_RE.lastIndex = 0;
+    while((m = MATH_RE.exec(text)) !== null){
+      out += pretty(esc(text.slice(last, m.index)));
+      out += esc(m[0]);
+      last = m.index + m[0].length;
+    }
+    out += pretty(esc(text.slice(last)));
+    return out.replace(/\n/g, "<br>");
+  }
+  function typeset(node){
+    if(window.MathJax && MathJax.startup && MathJax.startup.promise){
+      MathJax.startup.promise.then(function(){
+        if(MathJax.typesetPromise) MathJax.typesetPromise([node]).catch(function(){});
+      }).catch(function(){});
+    }
+  }
+  function fill(node, text, img, imgClass){
+    node.innerHTML = rich(text) +
+      (img ? "<figure class='figure'><img src='" + img + "' alt='Task image'></figure>" : "");
+    typeset(node);
+  }
+
+  /* ---------- state ---------- */
+  function T(t, m){ return { t: t || "", m: m || "" }; }
+  function norm(x){ return (x && typeof x === "object") ? T(x.t, x.m) : T(x || "", ""); }
+  function blank(n){ var a = [], i; for(i = 0; i < n; i++) a.push(T()); return a; }
+
+  var st = {
+    title:"", intro:"", G:6, S:6,
+    on:{ number:true, role:false, style:false, level:false },
+    labels:{}, vary:false, tasks:blank(6), gtasks:[], group:T()
+  };
+  LENS.forEach(function(L){ st.labels[L.k] = L.def.slice(0,8); });
+  var activeGroup = 0;
+
+  function ensureVary(){
+    while(st.gtasks.length < st.G) st.gtasks.push(blank(st.S));
+    st.gtasks = st.gtasks.slice(0, st.G).map(function(a){
+      a = a.slice(0, st.S).map(norm);
+      while(a.length < st.S) a.push(T());
+      return a;
+    });
+  }
+  function enabledLenses(){ return LENS.filter(function(L){ return st.on[L.k]; }); }
+  function taskFor(g, i){
+    if(st.vary){ ensureVary(); return st.gtasks[g] ? st.gtasks[g][i] : T(); }
+    return st.tasks[i] || T();
+  }
+
+  /* ---------- encoding ---------- */
+  function b64(s){ var b = new TextEncoder().encode(s), o = "", i;
+    for(i = 0; i < b.length; i++) o += String.fromCharCode(b[i]);
+    return btoa(o).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,""); }
+  function unb64(s){ s = s.replace(/-/g,"+").replace(/_/g,"/"); while(s.length % 4) s += "=";
+    var bin = atob(s), b = new Uint8Array(bin.length), i;
+    for(i = 0; i < bin.length; i++) b[i] = bin.charCodeAt(i);
+    return new TextDecoder().decode(b); }
+
+  function pack(){
+    var o = { t:st.title, i:st.intro, G:st.G, S:st.S, o:st.on, L:{}, v:st.vary?1:0, g:st.group };
+    LENS.forEach(function(L){ if(st.on[L.k]) o.L[L.k] = st.labels[L.k].slice(0, st.S); });
+    if(st.vary){ ensureVary(); o.T = st.gtasks; } else { o.T = st.tasks.slice(0, st.S); }
+    var json = JSON.stringify(o);
+    if(typeof LZString !== "undefined" && LZString.compressToEncodedURIComponent)
+      return "z=" + LZString.compressToEncodedURIComponent(json);
+    return "d=" + b64(json);
+  }
+  function unpack(h){
+    var json;
+    if(h.indexOf("z=") === 0){
+      if(typeof LZString === "undefined") throw new Error("lz");
+      json = LZString.decompressFromEncodedURIComponent(h.slice(2));
+    } else if(h.indexOf("d=") === 0){ json = unb64(h.slice(2)); }
+    else throw new Error("bad");
+    var o = JSON.parse(json), s = {
+      title:o.t||"", intro:o.i||"", G:o.G||6, S:o.S||6,
+      on:o.o||{number:true}, labels:{}, vary:!!o.v, tasks:[], gtasks:[], group:norm(o.g)
+    };
+    LENS.forEach(function(L){ s.labels[L.k] = (o.L && o.L[L.k]) ? o.L[L.k] : L.def.slice(0, s.S); });
+    if(s.vary) s.gtasks = (o.T || []).map(function(a){ return (a || []).map(norm); });
+    else s.tasks = (o.T || []).map(norm);
+    return s;
+  }
+
+  /* ---------- image intake ---------- */
+  var MAX_BYTES = 46000;
+  function shrink(file, done){
+    if(!file || !/^image\//.test(file.type)){ done(null, "That file is not an image."); return; }
+    var fr = new FileReader();
+    fr.onerror = function(){ done(null, "Could not read that file."); };
+    fr.onload = function(){
+      var im = new Image();
+      im.onerror = function(){ done(null, "Could not open that image."); };
+      im.onload = function(){
+        var dims = [1000, 820, 680, 540, 430], quals = [0.82, 0.7, 0.6, 0.5, 0.42];
+        var best = null, di, qi;
+        for(di = 0; di < dims.length; di++){
+          var scale = Math.min(1, dims[di] / Math.max(im.width, im.height));
+          var w = Math.max(1, Math.round(im.width * scale)), h = Math.max(1, Math.round(im.height * scale));
+          var cv = document.createElement("canvas");
+          cv.width = w; cv.height = h;
+          var cx = cv.getContext("2d");
+          cx.fillStyle = "#FFFFFF"; cx.fillRect(0, 0, w, h);
+          cx.drawImage(im, 0, 0, w, h);
+          for(qi = 0; qi < quals.length; qi++){
+            var url = "";
+            try{ url = cv.toDataURL("image/webp", quals[qi]); }catch(e){}
+            if(url.indexOf("data:image/webp") !== 0){
+              try{ url = cv.toDataURL("image/jpeg", quals[qi]); }catch(e){ url = ""; }
+            }
+            if(!url) continue;
+            if(!best || url.length < best.length) best = url;
+            if(url.length <= MAX_BYTES){ done(url, null); return; }
+          }
+        }
+        if(best) done(best, "This image is still large (" + Math.round(best.length/1024) + " KB) after shrinking. It will make your link long.");
+        else done(null, "Could not process that image.");
+      };
+      im.src = fr.result;
+    };
+    fr.readAsDataURL(file);
+  }
+
+  /* ---------- teacher UI ---------- */
+  function drawLenses(){
+    var box = $("lenses"); box.innerHTML = "";
+    LENS.forEach(function(L){
+      var el = document.createElement("label");
+      el.className = "lens" + (st.on[L.k] ? " on" : "");
+      el.setAttribute("data-k", L.k);
+      el.innerHTML = "<input type='checkbox' " + (st.on[L.k] ? "checked" : "") +
+        "><span><b>" + esc(L.n) + "</b><small>" + esc(L.d) + "</small></span>";
+      el.querySelector("input").addEventListener("change", function(){
+        st.on[L.k] = this.checked;
+        if(!enabledLenses().length) st.on.number = true;
+        render();
+      });
+      box.appendChild(el);
+    });
+    var w = $("lensWarn"), en = enabledLenses();
+    w.innerHTML = en.length > 1
+      ? "<div class='notice'><span>⚠</span><span>You have <b>" + en.length +
+        " ways in</b> to the same six tasks, so they are locked together — whoever is “" +
+        esc(st.labels[en[0].k][0] || "slot 1") + "” is also “" + esc(st.labels[en[1].k][0] || "slot 1") +
+        "”. Fine if you meant it. If not, keep one turned on.</span></div>"
+      : "";
+  }
+
+  function drawLabelSets(){
+    var box = $("labelsets"); box.innerHTML = "";
+    enabledLenses().forEach(function(L){
+      var wrap = document.createElement("div");
+      wrap.className = "labelset";
+      wrap.style.setProperty("--c", "var(" + L.c + ")");
+      wrap.style.setProperty("--cs", "var(" + L.s + ")");
+      var inputs = "";
+      for(var i = 0; i < st.S; i++)
+        inputs += "<input type='text' data-k='" + L.k + "' data-i='" + i + "' value='" +
+          esc(st.labels[L.k][i] || "") + "' placeholder='Slot " + (i+1) + "'>";
+      wrap.innerHTML = "<div class='head'><span class='chip'>" + esc(L.n) +
+        "</span><button class='btn ghost small' data-reset='" + L.k + "'>Reset labels</button></div>" +
+        "<div class='labelgrid'>" + inputs + "</div>";
+      box.appendChild(wrap);
+    });
+    box.querySelectorAll("input[data-k]").forEach(function(inp){
+      inp.addEventListener("input", function(){
+        st.labels[this.dataset.k][parseInt(this.dataset.i,10)] = this.value;
+        drawTaskTags(); drawGrid(); drawShare(); drawPrint();
+      });
+    });
+    box.querySelectorAll("[data-reset]").forEach(function(b){
+      b.addEventListener("click", function(){
+        st.labels[this.dataset.reset] = lensByKey(this.dataset.reset).def.slice(0,8);
+        render();
+      });
+    });
+  }
+
+  function slotChips(i){
+    return enabledLenses().map(function(L){
+      return "<span class='chip' style='--c:var(" + L.c + ");--cs:var(" + L.s + ")'>" +
+        esc(st.labels[L.k][i] || ("Slot " + (i+1))) + "</span>";
+    }).join("");
+  }
+
+  /* one editable task block (used for slots and the group task) */
+  function taskBlock(obj, headHtml, onChange){
+    var row = document.createElement("div");
+    row.className = "taskrow";
+    row.innerHTML =
+      "<div class='tags'>" + headHtml + "</div>" +
+      "<textarea placeholder='Type the task. Use $ $ for equations, or just x^2 and &lt;=. Paste or drag a picture in.'></textarea>" +
+      "<div class='imgstrip'>" +
+        "<button class='btn ghost small' data-add='1'>Add picture</button>" +
+        "<input type='file' accept='image/*' hidden>" +
+        "<span class='hint' data-msg='1' style='font-size:.8rem'></span>" +
+      "</div>" +
+      "<div class='preview'><span class='plab'>What students see</span><div data-pv='1'></div></div>";
+
+    var ta = row.querySelector("textarea"),
+        file = row.querySelector("input[type=file]"),
+        strip = row.querySelector(".imgstrip"),
+        msg = row.querySelector("[data-msg]"),
+        pv = row.querySelector("[data-pv]"),
+        timer = null;
+
+    ta.value = obj.t;
+
+    function paint(){
+      fill(pv, obj.t, obj.m);
+      if(!obj.t && !obj.m) pv.innerHTML = "<span class='empty'>Nothing yet.</span>";
+      drawThumb();
+    }
+    function drawThumb(){
+      var old = strip.querySelector(".thumb");
+      if(old) old.remove();
+      if(!obj.m) return;
+      var th = document.createElement("div");
+      th.className = "thumb";
+      th.innerHTML = "<img src='" + obj.m + "' alt=''><span class='meta'>" +
+        Math.round(obj.m.length/1024) + " KB<br>in the link</span>" +
+        "<button class='btn ghost small' data-rm='1'>Remove</button>";
+      th.querySelector("[data-rm]").addEventListener("click", function(){
+        obj.m = ""; msg.textContent = ""; paint(); onChange();
+      });
+      strip.appendChild(th);
+    }
+    function take(f){
+      msg.textContent = "Shrinking…";
+      shrink(f, function(url, err){
+        msg.textContent = err || "";
+        if(url){ obj.m = url; paint(); onChange(); }
+      });
+    }
+
+    ta.addEventListener("input", function(){
+      obj.t = ta.value;
+      clearTimeout(timer);
+      timer = setTimeout(function(){ paint(); onChange(); }, 260);
+    });
+    row.querySelector("[data-add]").addEventListener("click", function(){ file.click(); });
+    file.addEventListener("change", function(){ if(this.files && this.files[0]) take(this.files[0]); this.value = ""; });
+    ta.addEventListener("paste", function(e){
+      var items = (e.clipboardData || {}).items || [], i;
+      for(i = 0; i < items.length; i++)
+        if(items[i].type && items[i].type.indexOf("image") === 0){
+          e.preventDefault(); take(items[i].getAsFile()); return;
+        }
+    });
+    ["dragenter","dragover"].forEach(function(ev){
+      row.addEventListener(ev, function(e){ e.preventDefault(); row.classList.add("drop"); });
+    });
+    ["dragleave","drop"].forEach(function(ev){
+      row.addEventListener(ev, function(e){ e.preventDefault(); row.classList.remove("drop"); });
+    });
+    row.addEventListener("drop", function(e){
+      var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+      if(f) take(f);
+    });
+
+    paint();
+    return row;
+  }
+
+  function afterEdit(){ drawGrid(); drawWarning(); drawShare(); drawPrint(); }
+
+  function drawTasks(){
+    var box = $("tasks"); box.innerHTML = "";
+    $("groupTabs").style.display = st.vary ? "flex" : "none";
+    $("varyTools").style.display = st.vary ? "flex" : "none";
+    if(st.vary){
+      ensureVary();
+      var tabs = $("groupTabs"); tabs.innerHTML = "";
+      for(var g = 0; g < st.G; g++){
+        var b = document.createElement("button");
+        b.className = "tab" + (g === activeGroup ? " on" : "");
+        b.textContent = "Group " + (g+1); b.dataset.g = g;
+        b.addEventListener("click", function(){ activeGroup = parseInt(this.dataset.g,10); drawTasks(); });
+        tabs.appendChild(b);
+      }
+    }
+    for(var i = 0; i < st.S; i++){
+      var obj = st.vary ? st.gtasks[activeGroup][i] : st.tasks[i];
+      box.appendChild(taskBlock(obj,
+        "<span class='slotno'>SLOT " + (i+1) + "</span>" + slotChips(i), afterEdit));
+    }
+  }
+  function drawTaskTags(){
+    var rows = $("tasks").querySelectorAll(".taskrow .tags"), i;
+    for(i = 0; i < rows.length; i++)
+      rows[i].innerHTML = "<span class='slotno'>SLOT " + (i+1) + "</span>" + slotChips(i);
+  }
+  function drawGroupTask(){
+    var box = $("groupTaskBox"); box.innerHTML = "";
+    box.appendChild(taskBlock(st.group,
+      "<span class='slotno'>TOGETHER, AT THE END</span>", afterEdit));
+  }
+
+  function drawGrid(){
+    var t = $("grid"), en = enabledLenses(), g, i,
+        html = "<thead><tr><th>Group</th>";
+    for(i = 0; i < st.S; i++) html += "<th>" + esc(st.labels[en[0].k][i] || ("Slot " + (i+1))) + "</th>";
+    html += "</tr></thead><tbody>";
+    for(g = 0; g < st.G; g++){
+      html += "<tr><th scope='row'>Group " + (g+1) + "</th>";
+      for(i = 0; i < st.S; i++){
+        var o = taskFor(g, i), txt = o.t.replace(/\s+/g," ").trim();
+        var cell = txt ? "<b>" + esc(txt.slice(0,30)) + (txt.length > 30 ? "…" : "") + "</b>" : "";
+        if(o.m) cell += (cell ? " " : "") + "🖼";
+        html += "<td>" + (cell || "—") + "</td>";
+      }
+      html += "</tr>";
+    }
+    t.innerHTML = html + "</tbody>";
+  }
+
+  function drawWarning(){
+    var w = $("warning"), empty = 0, dup = false, g, i, seen, msgs = [];
+    var groupsToCheck = st.vary ? st.G : 1;
+    for(g = 0; g < groupsToCheck; g++){
+      seen = {};
+      for(i = 0; i < st.S; i++){
+        var o = taskFor(g, i), key = o.t.trim();
+        if(!key && !o.m) empty++;
+        else if(key){ if(seen[key]) dup = true; seen[key] = true; }
+      }
+    }
+    if(empty > 0) msgs.push("<div class='notice'><span>⚠</span><span><b>" + empty +
+      " task" + (empty > 1 ? "s are" : " is") + " still empty.</b> Students tapping those slots see a blank card.</span></div>");
+    if(dup) msgs.push("<div class='notice'><span>⚠</span><span>Two students in the same group have <b>identical task text</b>.</span></div>");
+    if(!st.group.t.trim() && !st.group.m) msgs.push("<div class='notice'><span>⚠</span><span>No group task yet. Without it, this is six people working alone at the same table.</span></div>");
+    if(!msgs.length) msgs.push("<div class='notice ok'><span>✓</span><span>Every slot filled, no repeats inside a group, group task set.</span></div>");
+    w.innerHTML = msgs.join("");
+  }
+
+  var BKEY = "sixbysix.base";
+  function readBase(){ try{ return localStorage.getItem(BKEY) || ""; }catch(e){ return ""; } }
+  function saveBase(v){ try{ localStorage.setItem(BKEY, v); }catch(e){} }
+  function cleanBase(v){
+    v = String(v || "").trim().split("#")[0].replace(/\?.*$/, "");
+    return v;
+  }
+  function activeBase(){
+    var b = cleanBase(readBase());
+    return b || (location.origin + location.pathname);
+  }
+  function drawBaseNote(){
+    var raw = readBase(), b = cleanBase(raw), note = $("baseNote");
+    if(!raw){
+      note.innerHTML = "<div class='notice'><span>⚠</span><span>Nothing pasted yet, so student links point at wherever you are right now. If that is your private Claude window, <b>students will hit a sign-in wall.</b></span></div>";
+      return;
+    }
+    if(!/^https?:\/\/.+/i.test(b)){
+      note.innerHTML = "<div class='notice bad'><span>⚠</span><span>That does not look like a web address. It should start with <code>https://</code>.</span></div>";
+      return;
+    }
+    note.innerHTML = "<div class='notice ok'><span>✓</span><span>Student links will start with <b>" + esc(b) + "</b></span></div>";
+  }
+
+  function drawShare(){
+    var url = activeBase() + "?a=" + encodeURIComponent(pack()), n = url.length;
+    $("link").textContent = url;
+    $("link").dataset.url = url;
+
+    /* link weight meter — 60k chars is the practical ceiling */
+    var pct = Math.max(2, Math.min(100, Math.round(n / 60000 * 100)));
+    var fillEl = $("meterfill");
+    fillEl.style.width = pct + "%";
+    fillEl.className = "meterfill" + (n > 45000 ? " bad" : (n > 15000 ? " warn" : ""));
+    $("meterSize").textContent = n.toLocaleString() + " CHARACTERS";
+    var note = $("meterNote"), label = $("meterLabel");
+    if(n <= 1200){ label.textContent = "LIGHT — QR CODE WORKS"; note.innerHTML = ""; }
+    else if(n <= 15000){ label.textContent = "FINE — LINK WORKS EVERYWHERE"; note.innerHTML = ""; }
+    else if(n <= 45000){
+      label.textContent = "HEAVY";
+      note.innerHTML = "<div class='notice'><span>⚠</span><span>This link is long. It will paste fine into Teams, Classroom or a browser, but some chat apps cut long links. <b>Test it on one iPad before the lesson.</b></span></div>";
+    } else {
+      label.textContent = "TOO HEAVY";
+      note.innerHTML = "<div class='notice bad'><span>⚠</span><span>This link is long enough to break in most places you would paste it. Remove a picture, or use the print option and hand those tasks out on paper.</span></div>";
+    }
+
+    var box = $("qr"), qn = $("qrnote");
+    box.innerHTML = "";
+    if(typeof QRCode === "undefined"){ $("qrbox").style.display = "none"; qn.textContent = "QR code could not load — share the link instead."; return; }
+    if(n > 1200){
+      $("qrbox").style.display = "none";
+      qn.textContent = "Too long for a QR code. Share the link instead — it still works.";
+      return;
+    }
+    $("qrbox").style.display = "flex"; qn.textContent = "";
+    try{
+      new QRCode(box, { text:url, width:164, height:164, colorDark:"#151F1D", colorLight:"#FFFFFF", correctLevel:QRCode.CorrectLevel.M });
+    }catch(e){ $("qrbox").style.display = "none"; qn.textContent = "QR code failed — share the link instead."; }
+  }
+
+  function drawPrint(){
+    var a = $("printarea"), en = enabledLenses(), g, i,
+        html = "<h2 class='p-h'>" + esc(st.title || "Group activity") + "</h2>";
+    if(st.intro) html += "<p class='p-sub'>" + esc(st.intro) + "</p>";
+    html += "<table class='p-table'><thead><tr><th>Group</th>";
+    for(i = 0; i < st.S; i++) html += "<th>" + esc(st.labels[en[0].k][i] || ("Slot " + (i+1))) + "</th>";
+    html += "</tr></thead><tbody>";
+    for(g = 0; g < st.G; g++){
+      html += "<tr><td><b>Group " + (g+1) + "</b></td>";
+      for(i = 0; i < st.S; i++){
+        var t = taskFor(g, i).t.replace(/\s+/g," ").trim();
+        html += "<td>" + esc(t.slice(0,36)) + (t.length > 36 ? "…" : "") + "</td>";
+      }
+      html += "</tr>";
+    }
+    html += "</tbody></table>";
+    var sets = st.vary ? st.G : 1;
+    for(g = 0; g < sets; g++){
+      if(st.vary) html += "<h2 class='p-h'>Group " + (g+1) + "</h2>";
+      for(i = 0; i < st.S; i++){
+        var o = taskFor(g, i);
+        var labels = en.map(function(L){ return st.labels[L.k][i] || ("Slot " + (i+1)); }).join("  ·  ");
+        html += "<div class='p-card'><div class='n'>" + esc(labels) + "</div><div class='t'>" +
+          rich(o.t || "—") + "</div>" + (o.m ? "<img src='" + o.m + "' alt=''>" : "") + "</div>";
+      }
+    }
+    if(st.group.t || st.group.m)
+      html += "<div class='p-group'><div class='n'>TOGETHER, AT THE END</div><div class='t'>" +
+        rich(st.group.t) + "</div>" + (st.group.m ? "<img src='" + st.group.m + "' alt=''>" : "") + "</div>";
+    a.innerHTML = html;
+    typeset(a);
+  }
+
+  function render(){
+    st.G = Math.max(2, Math.min(12, parseInt($("nGroups").value,10) || 6));
+    st.S = Math.max(2, Math.min(8, parseInt($("nSlots").value,10) || 6));
+    while(st.tasks.length < st.S) st.tasks.push(T());
+    st.tasks = st.tasks.slice(0, st.S).map(norm);
+    LENS.forEach(function(L){
+      while(st.labels[L.k].length < st.S) st.labels[L.k].push(L.def[st.labels[L.k].length] || "");
+    });
+    if(activeGroup >= st.G) activeGroup = 0;
+    if(st.vary) ensureVary();
+    drawLenses(); drawLabelSets(); drawTasks(); drawGroupTask();
+    drawGrid(); drawWarning(); drawShare(); drawPrint();
+  }
+
+  /* ---------- saved (this device) ---------- */
+  var KEY = "sixbysix.v2";
+  function readSaved(){ try{ return JSON.parse(localStorage.getItem(KEY) || "[]"); }catch(e){ return []; } }
+  function writeSaved(a){ try{ localStorage.setItem(KEY, JSON.stringify(a)); return true; }catch(e){ return false; } }
+  function drawSaved(){
+    var list = readSaved(), box = $("savedList");
+    if(!list.length){ box.innerHTML = "<p class='hint' style='opacity:.7'>Nothing saved yet.</p>"; return; }
+    box.innerHTML = list.map(function(it, i){
+      return "<div class='savedrow'><span class='nm'>" + esc(it.n) + "</span>" +
+        "<button class='btn ghost small' data-load='" + i + "'>Load</button>" +
+        "<button class='btn ghost small' data-del='" + i + "'>Delete</button></div>";
+    }).join("");
+    box.querySelectorAll("[data-load]").forEach(function(b){
+      b.addEventListener("click", function(){
+        var it = readSaved()[parseInt(this.dataset.load,10)];
+        if(it) try{ applyState(unpack(it.h)); }catch(e){}
+      });
+    });
+    box.querySelectorAll("[data-del]").forEach(function(b){
+      b.addEventListener("click", function(){
+        var a = readSaved(); a.splice(parseInt(this.dataset.del,10),1); writeSaved(a); drawSaved();
+      });
+    });
+  }
+  function applyState(s){
+    st = s;
+    LENS.forEach(function(L){ if(!st.labels[L.k]) st.labels[L.k] = L.def.slice(0,8); });
+    st.group = norm(st.group);
+    $("title").value = st.title; $("intro").value = st.intro;
+    $("nGroups").value = st.G; $("nSlots").value = st.S;
+    $("vary").checked = st.vary;
+    activeGroup = 0;
+    render();
+  }
+
+  /* ---------- student ---------- */
+  var S = null, gPick = null, lPick = null;
+  function stg(h){ $("stage").innerHTML = h; typeset($("stage")); }
+  function bind(sel, fn){
+    var n = $("stage").querySelectorAll(sel), i;
+    for(i = 0; i < n.length; i++)(function(el){ el.addEventListener("click", function(){ fn(el); }); })(n[i]);
+  }
+  function sLenses(){ return LENS.filter(function(L){ return S.on[L.k]; }); }
+  function sTask(g, i){
+    if(S.vary){ var r = S.gtasks[g]; return r ? norm(r[i]) : T(); }
+    return norm(S.tasks[i]);
+  }
+  function showStudent(s){
+    S = s; gPick = null; lPick = null;
+    if(!sLenses().length) S.on.number = true;
+    $("setup").style.display = "none";
+    $("student").classList.add("on");
+    askGroup();
+  }
+  function askGroup(){
+    var h = "<div class='ask'><span class='eyebrow'>" + esc(S.title || "Group activity") +
+      "</span><h2>Which group are you in?</h2><p>Tap your group number.</p></div><div class='pad num'>";
+    for(var g = 1; g <= S.G; g++) h += "<button class='pick' data-g='" + g + "'><span class='big'>" + g + "</span></button>";
+    stg(h + "</div>");
+    bind("[data-g]", function(el){ gPick = parseInt(el.dataset.g,10); afterGroup(); });
+  }
+  function afterGroup(){
+    var en = sLenses();
+    if(en.length === 1){ lPick = en[0]; askSlot(); } else askLens();
+  }
+  function askLens(){
+    var h = "<div class='ask'><span class='eyebrow'>Group " + gPick +
+      "</span><h2>How do you want to find your task?</h2><p>Any of these reaches the same tasks.</p></div><div class='pad'>";
+    sLenses().forEach(function(L){
+      h += "<button class='pick' data-l='" + L.k + "' style='--hv:var(" + L.c + ");--hs:var(" + L.s + ")'>" +
+        "<span class='lbl'>" + esc(L.n) + "</span></button>";
+    });
+    stg(h + "</div><div class='backline'><button class='btn ghost' data-b1='1'>Wrong group</button></div>");
+    bind("[data-l]", function(el){ lPick = lensByKey(el.dataset.l); askSlot(); });
+    bind("[data-b1]", askGroup);
+  }
+  function askSlot(){
+    var L = lPick, isNum = (L.k === "number");
+    var h = "<div class='ask'><span class='eyebrow'>Group " + gPick + " · " + esc(L.n) + "</span><h2>" +
+      (isNum ? "What is your number in the group?" : "Which one is yours?") + "</h2><p>" +
+      (isNum ? "Count off around the table, then tap your number." : "Tap it to see your task.") +
+      "</p></div><div class='pad" + (isNum ? " num" : "") + "'>";
+    for(var i = 0; i < S.S; i++){
+      var lab = (S.labels[L.k] && S.labels[L.k][i]) ? S.labels[L.k][i] : ("Slot " + (i+1));
+      h += "<button class='pick' data-s='" + i + "' style='--hv:var(" + L.c + ");--hs:var(" + L.s + ")'>" +
+        (isNum ? "<span class='big'>" + esc(lab) + "</span>"
+               : "<span class='lbl'>" + esc(lab) + "</span><span class='sub'>" + (i+1) + " OF " + S.S + "</span>") +
+        "</button>";
+    }
+    stg(h + "</div><div class='backline'><button class='btn ghost' data-b2='1'>Go back</button></div>");
+    bind("[data-s]", function(el){ showTask(parseInt(el.dataset.s,10)); });
+    bind("[data-b2]", function(){ sLenses().length > 1 ? askLens() : askGroup(); });
+  }
+  function showTask(slot){
+    var chips = sLenses().map(function(L){
+      var lab = (S.labels[L.k] && S.labels[L.k][slot]) ? S.labels[L.k][slot] : ("Slot " + (slot+1));
+      return "<span class='chip' style='--c:var(" + L.c + ");--cs:var(" + L.s + ")'>" + esc(lab) + "</span>";
+    }).join("");
+    var o = sTask(gPick - 1, slot);
+    var bodyHtml = (o.t || o.m) ? rich(o.t) : "<span style='color:var(--faint)'>(No task here — check with your teacher.)</span>";
+    stg(
+      "<div class='card'><div class='tag'><div class='tags'>" + chips + "</div><span class='num'>GROUP " + gPick + "</span></div>" +
+      (S.intro ? "<div class='intro'>" + esc(S.intro) + "</div>" : "") +
+      "<div class='body'>" + bodyHtml + "</div>" +
+      (o.m ? "<figure class='figure'><img src='" + o.m + "' alt='Task image'></figure>" : "") +
+      "</div><div class='backline'>" +
+      ((S.group && (S.group.t || S.group.m)) ? "<button class='btn' data-done='1'>We're all done — show the group task</button>" : "") +
+      "<button class='btn ghost' data-b3='1'>Not mine — go back</button></div>"
+    );
+    bind("[data-b3]", askSlot);
+    bind("[data-done]", function(){ showGroup(slot); });
+  }
+  function showGroup(slot){
+    var g = norm(S.group);
+    stg("<div class='together'><span class='eyebrow'>Group " + gPick + " · together now</span>" +
+      "<h3>Your group task</h3><div class='body'>" + rich(g.t) + "</div>" +
+      (g.m ? "<figure class='figure'><img src='" + g.m + "' alt=''></figure>" : "") + "</div>" +
+      "<div class='backline'><button class='btn ghost' data-b4='1'>Back to my task</button></div>");
+    bind("[data-b4]", function(){ showTask(slot); });
+  }
+
+  /* ---------- wiring ---------- */
+  $("title").addEventListener("input", function(){ st.title = this.value; drawShare(); drawPrint(); });
+  $("intro").addEventListener("input", function(){ st.intro = this.value; drawShare(); drawPrint(); });
+  $("nGroups").addEventListener("input", render);
+  $("nSlots").addEventListener("input", render);
+  $("vary").addEventListener("change", function(){ st.vary = this.checked; if(st.vary) ensureVary(); render(); });
+  $("copyFrom1").addEventListener("click", function(){
+    ensureVary();
+    for(var g = 1; g < st.G; g++) st.gtasks[g] = st.gtasks[0].map(function(o){ return T(o.t, o.m); });
+    drawTasks(); afterEdit();
+  });
+  $("copy").addEventListener("click", function(){
+    var b = this;
+    navigator.clipboard.writeText($("link").dataset.url).then(function(){
+      b.textContent = "Copied"; setTimeout(function(){ b.textContent = "Copy link"; }, 1600);
+    }, function(){
+      b.textContent = "Select the link above"; setTimeout(function(){ b.textContent = "Copy link"; }, 2200);
+    });
+  });
+  $("baseUrl").addEventListener("input", function(){
+    saveBase(this.value);
+    drawBaseNote(); drawShare();
+  });
+
+  $("preview").addEventListener("click", function(){
+    try{ showStudent(unpack(pack())); }catch(e){}
+  });
+  $("print").addEventListener("click", function(){ window.print(); });
+  $("exit").addEventListener("click", function(){
+    $("student").classList.remove("on");
+    $("setup").style.display = "";
+  });
+  $("saveBtn").addEventListener("click", function(){
+    var n = $("saveName").value.trim() || st.title.trim() || "Untitled activity";
+    var a = readSaved();
+    a.unshift({ n:n, h:pack() });
+    var ok = writeSaved(a.slice(0, 30));
+    $("saveName").value = "";
+    drawSaved();
+    if(!ok) $("savedList").insertAdjacentHTML("beforebegin",
+      "<div class='notice bad'><span>⚠</span><span>Could not save — this browser's storage is full, most likely from saved pictures. Delete an older activity and try again.</span></div>");
+  });
+
+  /* ---------- boot ---------- */
+  $("baseUrl").value = readBase();
+  render();
+  drawBaseNote();
+  drawShare();
+  drawSaved();
+
+  /* A student link carries the activity. Look in the query string first
+     (survives more hosts), then the hash (older links still work). */
+  (function boot(){
+    var payload = "", m = /[?&]a=([^&]*)/.exec(location.search);
+    if(m && m[1]){
+      try{ payload = decodeURIComponent(m[1]); }catch(e){ payload = m[1]; }
+    }
+    if(!payload && location.hash.length > 3) payload = location.hash.slice(1);
+    if(!payload) return;
+    try{ showStudent(unpack(payload)); }catch(e){}
+  })();
+})();
+</script>
+</body>
+</html>
