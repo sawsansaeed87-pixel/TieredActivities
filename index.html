@@ -784,7 +784,10 @@ window.MathJax = {
   }
 
   function drawShare(){
-    var url = activeBase() + "?a=" + encodeURIComponent(pack()), n = url.length;
+    /* The activity goes after "#". Everything after "#" stays in the browser and is
+       never sent to the web server, so there is no request-length limit to hit.
+       (A "?" would be sent, and long ones come back as "URI Too Long".) */
+    var url = activeBase() + "#a=" + pack(), n = url.length;
     $("link").textContent = url;
     $("link").dataset.url = url;
 
@@ -799,10 +802,10 @@ window.MathJax = {
     else if(n <= 15000){ label.textContent = "FINE — LINK WORKS EVERYWHERE"; note.innerHTML = ""; }
     else if(n <= 45000){
       label.textContent = "HEAVY";
-      note.innerHTML = "<div class='notice'><span>⚠</span><span>This link is long. It will paste fine into Teams, Classroom or a browser, but some chat apps cut long links. <b>Test it on one iPad before the lesson.</b></span></div>";
+      note.innerHTML = "<div class='notice'><span>⚠</span><span>This link is long. It opens fine in a browser, but some chat apps shorten long links when they paste them. <b>Send it to yourself first and check it still works.</b></span></div>";
     } else {
       label.textContent = "TOO HEAVY";
-      note.innerHTML = "<div class='notice bad'><span>⚠</span><span>This link is long enough to break in most places you would paste it. Remove a picture, or use the print option and hand those tasks out on paper.</span></div>";
+      note.innerHTML = "<div class='notice bad'><span>⚠</span><span>This link is long enough that most apps will cut it when you paste it. Remove a picture, shorten a task, or use <b>Print for paper</b> and hand these out instead.</span></div>";
     }
 
     var box = $("qr"), qn = $("qrnote");
@@ -1045,11 +1048,18 @@ window.MathJax = {
   /* A student link carries the activity. Look in the query string first
      (survives more hosts), then the hash (older links still work). */
   (function boot(){
-    var payload = "", m = /[?&]a=([^&]*)/.exec(location.search);
-    if(m && m[1]){
-      try{ payload = decodeURIComponent(m[1]); }catch(e){ payload = m[1]; }
+    function maybeDecode(v){
+      if(v.indexOf("%") > -1){ try{ return decodeURIComponent(v); }catch(e){} }
+      return v;
     }
-    if(!payload && location.hash.length > 3) payload = location.hash.slice(1);
+    var payload = "", h = location.hash || "", m;
+    m = /^#a=(.+)$/.exec(h);                       /* current form */
+    if(m) payload = maybeDecode(m[1]);
+    if(!payload){                                   /* links made with the ?a= version */
+      m = /[?&]a=([^&]+)/.exec(location.search || "");
+      if(m) payload = maybeDecode(m[1]);
+    }
+    if(!payload && (h.indexOf("#z=") === 0 || h.indexOf("#d=") === 0)) payload = h.slice(1);
     if(!payload){
       /* No activity in the address — this is the builder, opened normally. */
       $("setup").insertAdjacentHTML("afterbegin",
